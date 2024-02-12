@@ -19,10 +19,11 @@ using namespace std;
  * @param none
  * @return none
  */
-BrowserHistory::BrowserHistory() {
+BrowserHistory::BrowserHistory()
+{
     /*
     DO NOT MODIFY THIS
-    This constructor is already complete. 
+    This constructor is already complete.
     */
     head = nullptr;
 }
@@ -31,28 +32,31 @@ BrowserHistory::BrowserHistory() {
  * Purpose: Check if list is empty
  * @return true if empty; else false
  */
-bool BrowserHistory::isEmpty() {
+bool BrowserHistory::isEmpty()
+{
     /* finished. do not touch. */
     return (head == NULL);
 }
 
 /*
- * Purpose: prints the current list of pages 
+ * Purpose: prints the current list of pages
  * in the given format.
  * [ID::1]-(URL::url1) -> ... -> NULL
  * @param none
  * @return none
  */
-void BrowserHistory::displayHistory() {
+void BrowserHistory::displayHistory()
+{
     // TODO
-    WebPage *current = head;
+    WebPage *current = nullptr;
+    current = head;
     cout << "== CURRENT BROWSER HISTORY ==" << endl;
-    while(current != nullptr)
+    while (current != nullptr)
     {
         cout << "[ID:: " << current->id << "]-(URL::" << current->url << ") -> ";
         current = current->next;
     }
-    if(isEmpty())
+    if (isEmpty())
     {
         cout << "Empty History" << endl;
     }
@@ -64,24 +68,29 @@ void BrowserHistory::displayHistory() {
  * Purpose: Add a new webpage to the browser history LL
  *   between the previous and the page that follows it in the list.
  * @param previousPage, the show that comes before the new page
- * @param newPage, the webpage to be added. 
+ * @param newPage, the webpage to be added.
  * @return none
  */
-void BrowserHistory::addWebPage(WebPage* previousPage, WebPage* newPage) {
+void BrowserHistory::addWebPage(WebPage *previousPage, WebPage *newPage)
+{
     // TODO
-    cout << "adding: ["<< newPage->id << "]-" << newPage->url;
-    if (previousPage == nullptr) { /* inserting a new head node */
+    cout << "adding: [" << newPage->id << "]-" << newPage->url;
+    if (previousPage == nullptr)
+    { /* inserting a new head node */
         newPage->next = head;
         head = newPage;
         cout << " (HEAD)" << endl;
     }
-    else if (previousPage->next == nullptr) { /* inserting a new tail node */
+    else if (previousPage->next == nullptr)
+    { /* inserting a new tail node */
         previousPage->next = newPage;
+        newPage = nullptr;
         cout << " (prev: [" << previousPage->id << "])" << endl;
-        if(head == 0)
+        if (head == 0)
             head = newPage;
     }
-    else { /* inserting a node in the middle */
+    else
+    { /* inserting a node in the middle */
         newPage->next = previousPage->next;
         previousPage->next = newPage;
         cout << " (prev: [" << previousPage->id << "])" << endl;
@@ -93,19 +102,20 @@ void BrowserHistory::addWebPage(WebPage* previousPage, WebPage* newPage) {
  * @param none
  * @return none
  */
-void BrowserHistory::buildBrowserHistory() {
+void BrowserHistory::buildBrowserHistory()
+{
     // TODO
-    WebPage webPages[5];
+
     WebPage *ptrPage1 = nullptr;
-    ptrPage1 = &webPages[0];
+    ptrPage1 = new WebPage;
     WebPage *ptrPage2 = nullptr;
-    ptrPage2 = &webPages[1];
+    ptrPage2 = new WebPage;
     WebPage *ptrPage3 = nullptr;
-    ptrPage3 = &webPages[2];
+    ptrPage3 = new WebPage;
     WebPage *ptrPage4 = nullptr;
-    ptrPage4 = &webPages[3];
+    ptrPage4 = new WebPage;
     WebPage *ptrPage5 = nullptr;
-    ptrPage5 = &webPages[4];
+    ptrPage5 = new WebPage;
     ptrPage1->url = "https://www.colorado.edu/";
     ptrPage2->url = "https://www.wikipedia.org/";
     ptrPage3->url = "https://brilliant.org/";
@@ -116,65 +126,64 @@ void BrowserHistory::buildBrowserHistory() {
     ptrPage3->id = 12;
     ptrPage4->id = 13;
     ptrPage5->id = 14;
+    ptrPage1->next = nullptr;
+    ptrPage2->next = nullptr;
+    ptrPage3->next = nullptr;
+    ptrPage4->next = nullptr;
+    ptrPage5->next = nullptr;
+    WebPage *ptrNull = nullptr;
 
-    addWebPage(searchPageByURL("First"), ptrPage1);
+    addWebPage(ptrNull, ptrPage1);
     addWebPage(ptrPage1, ptrPage2);
     addWebPage(ptrPage2, ptrPage3);
     addWebPage(ptrPage3, ptrPage4);
     addWebPage(ptrPage4, ptrPage5);
 }
 
-
 /*
- * Purpose: Search the BrowserHistory for the specified 
+ * Purpose: Search the BrowserHistory for the specified
  * web page by ID and return a pointer to that node.
  * @param int id - ID of the web page to look for in LL.
  * @return pointer to node of page, or NULL if not found
  *
  */
-WebPage* BrowserHistory::searchPageByID(int id) {
+WebPage *BrowserHistory::searchPageByID(int id)
+{
     // TODO
-    WebPage *current = head;
-    while(current != nullptr)
+    WebPage *current = nullptr;
+    current = head;
+    while (current->next != nullptr)
     {
-        if(current->id == id)
+        if (current->id == id)
         {
             return current;
         }
         current = current->next;
     }
-    cout << "Page not found. Try again." << endl;
     return nullptr;
 }
 
-
 /*
- * Purpose: Search the BrowserHistory for the specified 
+ * Purpose: Search the BrowserHistory for the specified
  * web page by the URL and return a pointer to that node.
  * @param string url - url of the web page to look for in LL.
  * @return pointer to node of page, or NULL if not found
  *
  */
-WebPage* BrowserHistory::searchPageByURL(std::string url) {
+WebPage *BrowserHistory::searchPageByURL(std::string url)
+{
     // TODO
-    WebPage *current = head;
-    if(url != "First")
+    WebPage *current = nullptr;
+    current = head;
+    while (current->next != nullptr)
     {
-        while(current != nullptr )
+        if (current->url == url)
         {
-            if(current->url == url)
-            {
-                return current;
-            }
-            current = current->next;
+            return current;
         }
-        cout << "Page not found. Try again." << endl;
-        return nullptr;
+        current = current->next;
     }
-    else
-    {
-        return head->next;
-    }
+    return nullptr;
 }
 
 /*
@@ -183,13 +192,25 @@ WebPage* BrowserHistory::searchPageByURL(std::string url) {
  * @param rating - the rating that is being given to a show
  * @return none
  */
-void BrowserHistory::addOwner(std::string url, string owner) {
+void BrowserHistory::addOwner(std::string url, string owner)
+{
     // TODO
-    WebPage *current = searchPageByURL(url);
-    current->owner = owner;
+    if(searchPageByURL(url) == nullptr)
+    {
+        cout  <<  "Page not found" << endl;
+    }
+    else
+    {
+        WebPage *current = searchPageByURL(url);
+        current->owner = owner;
+        cout  <<  "The owner ("  <<  owner  <<  ") has been added for the ID - "<<  current->id  <<  endl;
+    }
+    
+    
 }
 
-void BrowserHistory::updateViews(string url) {
+void BrowserHistory::updateViews(string url)
+{
     // TODO
     searchPageByURL(url)->views += 1;
 }
