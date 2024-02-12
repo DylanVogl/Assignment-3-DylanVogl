@@ -152,7 +152,7 @@ WebPage *BrowserHistory::searchPageByID(int id)
     // TODO
     WebPage *current = nullptr;
     current = head;
-    while (current->next != nullptr)
+    while (current != nullptr)
     {
         if (current->id == id)
         {
@@ -175,7 +175,7 @@ WebPage *BrowserHistory::searchPageByURL(std::string url)
     // TODO
     WebPage *current = nullptr;
     current = head;
-    while (current->next != nullptr)
+    while (current != nullptr)
     {
         if (current->url == url)
         {
